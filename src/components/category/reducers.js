@@ -7,10 +7,13 @@ const initialCategoriesState = {
 export const categories = ( state = initialCategoriesState, action ) => {
   switch ( action.type ) {
     case GET_CATEGORIES:
+      const { items } = action
+
       return {
         ...state,
-        items: action.items,
+        items,
       }
+
     default:
       return state
   }
