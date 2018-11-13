@@ -10,7 +10,7 @@ class Home extends Component {
   render() {
     const { categories } = this.props
     let content = ''
-    if (categories.items.length) {
+    if ( categories.items.length ) {
       content = (
          <ul>
           { categories.items.map( category => (
@@ -33,9 +33,9 @@ const mapStateToProps = ({ categories }) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    fetchCategories: () => dispatch(fetchCategories()),
+    fetchCategories: () => dispatch( fetchCategories() ),
   }
 }
 
