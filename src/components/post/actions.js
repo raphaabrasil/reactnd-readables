@@ -1,6 +1,7 @@
 import * as PostAPI from '../../api/post'
 
 export const GET_POSTS = 'GET_POSTS'
+export const GET_POST = 'GET_POST'
 
 export const getPosts = posts => (
   {
@@ -12,5 +13,17 @@ export const getPosts = posts => (
 export const fetchPosts = () => dispatch => {
   PostAPI.getPosts()
     .then( posts => dispatch( getPosts( posts ) ) )
+}
+
+export const getPost = post => {
+  return {
+    type: GET_POST,
+    content: post,
+  }
+}
+
+export const fetchPost = postId => dispatch => {
+  PostAPI.getPost( postId )
+    .then( post =>  dispatch( getPost( post ) ) )
 }
 
