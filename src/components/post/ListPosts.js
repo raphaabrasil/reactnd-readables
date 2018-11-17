@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import { fetchPosts } from './actions'
@@ -27,7 +28,9 @@ class ListPosts extends Component {
       content = (
          <ul>
           { posts.items.sort( sortBy( sortParam ) ).map( post => (
-            <li key={post.id}><b>{ post.title }</b> - voteScore: { post.voteScore }</li>
+            <li key={post.id}>
+              <Link to={`${post.category}/${post.id}`}>{ post.title }</Link> - voteScore: { post.voteScore }
+            </li>
           ))}
         </ul>
       )
