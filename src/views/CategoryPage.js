@@ -13,7 +13,12 @@ class CategoryPage extends Component {
     this.setState({
       category
     })
-    this.props.fetchCategoryPosts( category )
+    !this.hasPostOnCategory() && this.props.fetchCategoryPosts( category )
+  }
+
+  hasPostOnCategory = () => {
+    const categoryPosts = this.props.categoriesPosts[this.state.category]
+    return (categoryPosts && categoryPosts.posts.length)
   }
 
   changeOrder = sortParam => (
@@ -26,8 +31,8 @@ class CategoryPage extends Component {
     const { categoriesPosts } = this.props
     const { sortParam, category } = this.state
     const categoryPosts = categoriesPosts[category]
-    let content = ''
-    if ( categoryPosts && categoryPosts.posts.length ) {
+    let content = (<p>No posts found for {category}</p>)
+    if ( this.hasPostOnCategory() ) {
       content = (
          <ul>
           { categoryPosts.posts.sort( sortBy( sortParam ) ).map( post => (
