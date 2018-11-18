@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import { fetchPosts } from './actions'
+import Post from './Post'
 
 class ListPosts extends Component {
   state = {
@@ -26,23 +27,28 @@ class ListPosts extends Component {
     let content = ''
     if ( posts.items.length ) {
       content = (
-         <ul>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'space-around' }}>
           { posts.items.sort( sortBy( sortParam ) ).map( post => (
-            <li key={post.id}>
-              <Link to={`${post.category}/${post.id}`}>{ post.title }</Link> - voteScore: { post.voteScore }
-            </li>
-          ))}
-        </ul>
+            <Post post={ post } />
+          )  )  }
+        </div>
       )
     }
     return (
-      <div className="App">
-        <button onClick={ () => this.changeOrder( '-voteScore' ) }>
-          Order by vote score
-        </button>
-        <button onClick={ () => this.changeOrder( 'title' ) }>
-          Order by title
-        </button>
+      <div>
+        <h1>Posts</h1>
+        <div>
+          <p>
+            Order by:
+            <span onClick={ () => this.changeOrder( '-voteScore' ) }>
+              vote score
+            </span>
+            |
+            <span onClick={ () => this.changeOrder( 'title' ) }>
+              Title
+            </span>
+          </p>
+        </div>
         { content }
       </div>
     );

@@ -17,8 +17,7 @@ class PostPage extends Component {
     if ( post.content ) {
       content = (
         <div>
-          <p>{ post.content.id }</p>
-          <p>{post.content.title}</p>
+          <h1>{post.content.title}</h1>
           <p>{post.content.author}</p>
           <Moment
             format="DD/MM/YYYY HH:mm">
@@ -31,7 +30,7 @@ class PostPage extends Component {
       )
     }
     return (
-      <div className="App">
+      <div>
         { content }
       </div>
     );

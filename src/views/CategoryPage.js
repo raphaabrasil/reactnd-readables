@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import { fetchCategoryPosts } from '../components/category/actions'
+import Post from '../components/post/Post'
 
 class CategoryPage extends Component {
   state = {
@@ -35,23 +36,26 @@ class CategoryPage extends Component {
     let content = (<p>No posts found for {category}</p>)
     if ( this.hasPostOnCategory() ) {
       content = (
-         <ul>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'space-around' }}>
           { categoryPosts.posts.sort( sortBy( sortParam ) ).map( post => (
-            <li key={post.id}>
-              <Link to={`${category}/${post.id}`}>{ post.title }</Link> - id: {post.id} - voteScore: { post.voteScore }
-            </li>
-          ))}
-        </ul>
+            <Post post={ post } />
+          )  )  }
+        </div>
       )
     }
     return (
-      <div className="App">
-        <button onClick={ () => this.changeOrder( '-voteScore' ) }>
-          Order by vote score
-        </button>
-        <button onClick={ () => this.changeOrder( 'title' ) }>
-          Order by title
-        </button>
+      <div>
+        <h1><span style={{ textTransform: 'capitalize' }}>{ category }</span> posts</h1>
+        <p>
+          Order by:
+          <span onClick={ () => this.changeOrder( '-voteScore' ) }>
+            vote score
+          </span>
+          |
+          <span onClick={ () => this.changeOrder( 'title' ) }>
+            Title
+          </span>
+        </p>
         { content }
       </div>
     );
