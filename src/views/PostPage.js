@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment'
-import moment from 'moment'
 import { connect } from 'react-redux'
 import { fetchPost } from '../components/post/actions'
+import Comments from '../components/comments/Comments'
 
 class PostPage extends Component {
 
   componentDidMount() {
-    const { category, postId } = this.props.match.params
+    const { postId } = this.props.match.params
     this.props.fetchPost( postId )
   }
 
@@ -17,6 +17,7 @@ class PostPage extends Component {
     if ( post.content ) {
       content = (
         <div>
+          <p>{ post.content.id }</p>
           <p>{post.content.title}</p>
           <p>{post.content.author}</p>
           <Moment
@@ -25,6 +26,7 @@ class PostPage extends Component {
           </Moment>
           <p>{post.content.voteScore}</p>
           <p>{ post.content.body }</p>
+          <Comments postId={ post.content.id } />
         </div>
       )
     }
