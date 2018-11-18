@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import sortBy from 'sort-by'
 import { fetchPostComments } from './actions'
 
@@ -21,9 +20,8 @@ class Comments extends Component {
   }
 
   render() {
-    const { postsComments, postId } = this.props
     const comments = this.postComments()
-    let content = (<p>{postId}</p>)
+    let content = (<p>No comments for this post</p>)
     if ( comments ) {
       content = comments.sort( sortBy( '-voteScore' ) ).map( comment => (
         <div>
