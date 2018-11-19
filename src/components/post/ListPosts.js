@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import sortBy from 'sort-by'
+import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
 import { fetchPosts } from './actions'
 import Post from './Post'
 
@@ -35,7 +38,12 @@ class ListPosts extends Component {
     }
     return (
       <div>
-        <h1>Posts</h1>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h1 style={{ marginRight: 10 }}>Posts</h1>
+          <Button component= {Link} to={'/post/create'}variant="fab" color="secondary" aria-label="Add" mini>
+            <AddIcon />
+          </Button>
+        </div>
         <div>
           <p>
             Order by:
