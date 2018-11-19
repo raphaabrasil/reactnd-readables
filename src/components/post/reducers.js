@@ -1,4 +1,4 @@
-import { GET_POSTS, GET_POST } from './actions'
+import { GET_POSTS, GET_POST, ADD_POST } from './actions'
 
 const initialPostsState = {
   items: []
@@ -13,7 +13,16 @@ export const posts = ( state = initialPostsState, action ) => {
         ...state,
         items,
       }
+    case ADD_POST:
+      const { post } = action
 
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          post
+        ]
+      }
     default:
       return state
   }
