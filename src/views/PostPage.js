@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import { fetchPost } from '../components/post/actions'
@@ -17,6 +18,7 @@ class PostPage extends Component {
     if ( post.content ) {
       content = (
         <div>
+          <Link to={`/post/edit/${post.content.id}`}>Editar</Link>
           <h1>{post.content.title}</h1>
           <p>{post.content.author}</p>
           <Moment
