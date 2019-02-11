@@ -39,3 +39,8 @@ export const createPost = post => dispatch => (
   PostAPI.addPost( post )
     .then( post => dispatch( addPost( post ) ) )
 )
+
+export const editPost = post => dispatch => (
+  PostAPI.updatePost( post )
+)
+

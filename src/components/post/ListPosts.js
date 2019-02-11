@@ -13,7 +13,7 @@ class ListPosts extends Component {
   }
 
   componentDidMount() {
-    !this.props.posts.items.length && this.props.fetchPosts()
+    this.props.fetchPosts()
   }
 
   changeOrder = sortParam => (

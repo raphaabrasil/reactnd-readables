@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField'
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { createPost } from '../components/post/actions'
+import { editPost } from '../components/post/actions'
 import { fetchCategories } from '../components/category/actions'
 import { fetchPost } from '../components/post/actions'
 import uuid from "uuid"
@@ -42,8 +42,8 @@ class EditPost extends Component {
   }
 
   submitPost = event => {
-    const postBody = {...this.state.post, timestamp: Date.now(), id: uuid.v1()}
-    this.props.createPost(postBody)
+    const { post } = this.state
+    this.props.editPost( post )
     this.setState({snackOpen: true})
   }
 
@@ -53,7 +53,6 @@ class EditPost extends Component {
 
   render() {
     const { categories, post } = this.props
-    console.log(post)
     let categorySelection = ''
     categorySelection = categories.items.map( category => (
       <MenuItem value={category.name}>{category.name}</MenuItem>
@@ -68,7 +67,7 @@ class EditPost extends Component {
             label="Title"
             fullWidth
             margin="normal"
-            value={ this.state.post.title }
+            defaultValue={ this.state.post.title }
             onBlur={this.handleChange}
           />
           <FormControl fullWidth>
@@ -90,6 +89,7 @@ class EditPost extends Component {
             label="Author"
             fullWidth
             margin="normal"
+            defaultValue={ this.state.post.author }
             onBlur={this.handleChange}
           />
           <TextField
@@ -99,6 +99,7 @@ class EditPost extends Component {
             multiline
             margin="normal"
             fullWidth
+            defaultValue={ this.state.post.body }
             onBlur={this.handleChange}
           />
           <Button
@@ -149,7 +150,7 @@ const mapStateToProps = ({ categories, post }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createPost: post => dispatch( createPost( post ) ),
+    editPost: post => dispatch( editPost( post ) ),
     fetchCategories: () => dispatch( fetchCategories() ),
     fetchPost: postId => dispatch( fetchPost( postId ) ),
   }

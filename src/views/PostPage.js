@@ -4,12 +4,19 @@ import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import { fetchPost } from '../components/post/actions'
 import Comments from '../components/comments/Comments'
+import { deletePost } from '../api/post'
 
 class PostPage extends Component {
 
   componentDidMount() {
     const { postId } = this.props.match.params
     this.props.fetchPost( postId )
+  }
+
+  handleDelete = () => {
+    const postId = this.props.post.content.id
+    deletePost(postId)
+    this.props.history.push('/')
   }
 
   render() {
@@ -19,6 +26,7 @@ class PostPage extends Component {
       content = (
         <div>
           <Link to={`/post/edit/${post.content.id}`}>Editar</Link>
+          <p onClick={ this.handleDelete }>Deletar</p>
           <h1>{post.content.title}</h1>
           <p>{post.content.author}</p>
           <Moment
