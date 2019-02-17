@@ -1,44 +1,41 @@
 import { GET_POSTS, GET_POST, ADD_POST } from './actions'
 
 const initialPostsState = {
-  items: []
+  allIds: []
 }
 
 export const posts = ( state = initialPostsState, action ) => {
+  let nextState = { ...state }
   switch ( action.type ) {
     case GET_POSTS:
       const { items } = action
+      items.forEach( item => {
+        nextState[item.id] = item
+        if (!nextState.allIds.includes(item.id)) {
+          nextState.allIds = [...nextState.allIds, item.id]
+        }
+      })
+      return nextState
 
-      return {
-        ...state,
-        items,
-      }
-    case ADD_POST:
-      const { post } = action
-
-      return {
-        ...state,
-        items: [
-          ...state.items,
-          post
-        ]
-      }
-    default:
-      return state
-  }
-}
-
-export const post = ( state = {}, action ) => {
-  switch ( action.type ) {
     case GET_POST:
       const { content } = action
+      nextState[content.id] = content
 
-      return {
-        ...state,
-        content,
+      if (!nextState.allIds.includes(content.id)) {
+        nextState.allIds = [...nextState.allIds, content.id]
       }
+
+      return nextState
+
+    case ADD_POST:
+      const { post } = action
+      nextState[post.id] = post
+      nextState.allIds = [...nextState.allIds, post.id]
+
+      return nextState
 
     default:
       return state
   }
 }
+

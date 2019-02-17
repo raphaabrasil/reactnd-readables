@@ -27,10 +27,11 @@ class ListPosts extends Component {
     const { sortParam } = this.state
 
     let content = ''
-    if ( posts.items.length ) {
+    if ( posts.allIds.length ) {
+      const postsContent = posts.allIds.map( id => ( posts[id] ) )
       content = (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'space-around' }}>
-          { posts.items.sort( sortBy( sortParam ) ).map( post => (
+          { postsContent.sort( sortBy( sortParam ) ).map( post => (
             <Post post={ post } />
           )  )  }
         </div>

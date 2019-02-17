@@ -11,7 +11,7 @@ import './App.css'
 
 class App extends Component {
   componentDidMount() {
-    !this.props.posts.items.length && this.props.fetchPosts()
+    !this.props.posts.allIds.length && this.props.fetchPosts()
   }
 
   render() {

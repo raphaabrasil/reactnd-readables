@@ -10,32 +10,33 @@ class PostPage extends Component {
 
   componentDidMount() {
     const { postId } = this.props.match.params
-    this.props.fetchPost( postId )
+    !this.props.posts[postId] && this.props.fetchPost( postId )
   }
 
   handleDelete = () => {
-    const postId = this.props.post.content.id
+    const { postId } = this.props.match.params
     deletePost(postId)
     this.props.history.push('/')
   }
 
   render() {
-    const { post } = this.props
+    const { postId } = this.props.match.params
+    const post = this.props.posts[postId]
     let content = (<p>No posts found</p>)
-    if ( post.content ) {
+    if ( post ) {
       content = (
         <div>
-          <Link to={`/post/edit/${post.content.id}`}>Editar</Link>
+          <Link to={`/post/edit/${post.id}`}>Editar</Link>
           <p onClick={ this.handleDelete }>Deletar</p>
-          <h1>{post.content.title}</h1>
-          <p>{post.content.author}</p>
+          <h1>{post.title}</h1>
+          <p>{post.author}</p>
           <Moment
             format="DD/MM/YYYY HH:mm">
-            {post.content.timestamp}
+            {post.timestamp}
           </Moment>
-          <p>{post.content.voteScore}</p>
-          <p>{ post.content.body }</p>
-          <Comments postId={ post.content.id } />
+          <p>{post.voteScore}</p>
+          <p>{ post.body }</p>
+          <Comments postId={ post.id } />
         </div>
       )
     }
@@ -47,9 +48,9 @@ class PostPage extends Component {
   }
 }
 
-const mapStateToProps = ({ post }) => {
+const mapStateToProps = ({ posts }) => {
   return {
-    post,
+    posts,
   }
 }
 

@@ -11,24 +11,39 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { editPost } from '../components/post/actions'
 import { fetchCategories } from '../components/category/actions'
-import { fetchPost } from '../components/post/actions'
 import uuid from "uuid"
 
 class EditPost extends Component {
   state = {
     post: {
-      id: this.props.post.content && this.props.post.content.id || '',
-      title: this.props.post.content && this.props.post.content.title || '',
-      category: this.props.post.content && this.props.post.content.category  || '',
-      body: this.props.post.content && this.props.post.content.body || '',
-      author: this.props.post.content && this.props.post.content.author || '',
+      title: '',
+      body: '',
+      author: '',
+      category: '',
     },
     snackOpen: false,
   }
-
   componentDidMount() {
     !this.props.categories.items.length && this.props.fetchCategories()
-    this.props.fetchPost( this.props.match.params.postId )
+    const { postId } = this.props.match.params
+    const post = this.props.posts[postId]
+    if (post) {
+      this.setState({
+        ...this.state,
+        post
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.posts !== this.props.posts) {
+      const { postId } = this.props.match.params
+      const post = this.props.posts[postId]
+      this.setState({
+        ...this.state,
+        post
+      })
+    }
   }
 
   handleChange = event => {
@@ -52,7 +67,10 @@ class EditPost extends Component {
   }
 
   render() {
-    const { categories, post } = this.props
+    if (!this.props.posts) {
+      return
+    }
+    const { categories } = this.props
     let categorySelection = ''
     categorySelection = categories.items.map( category => (
       <MenuItem value={category.name}>{category.name}</MenuItem>
@@ -60,91 +78,95 @@ class EditPost extends Component {
 
     return (
       <div>
-        <form autoComplete="off">
-          <TextField
-            id="title"
-            name="title"
-            label="Title"
-            fullWidth
-            margin="normal"
-            defaultValue={ this.state.post.title }
-            onBlur={this.handleChange}
-          />
-          <FormControl fullWidth>
-            <InputLabel htmlFor="category">Category</InputLabel>
-            <Select
-              value={this.state.post.category}
-              onChange={this.handleChange}
-              inputProps={{
-                name: 'category',
-                id: 'category',
-              }}
-            >
-              { categorySelection }
-            </Select>
-          </FormControl>
-          <TextField
-            id="author"
-            name="author"
-            label="Author"
-            fullWidth
-            margin="normal"
-            defaultValue={ this.state.post.author }
-            onBlur={this.handleChange}
-          />
-          <TextField
-            id="content"
-            name="body"
-            label="Content"
-            multiline
-            margin="normal"
-            fullWidth
-            defaultValue={ this.state.post.body }
-            onBlur={this.handleChange}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.submitPost}
-          >
-            Send
-          </Button>
-        </form>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={this.state.snackOpen}
-          autoHideDuration={10000}
-          onClose={this.handleSnackClose}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">Post created!</span>}
-          action={[
-            <Button key="undo" color="secondary" size="small" onClick={this.handleSnackClose}>
-              Return to Home
-            </Button>,
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              onClick={this.handleSnackClose}
-            >
-              <CloseIcon />
-            </IconButton>,
-          ]}
-        />
+        { this.state && this.state.post &&
+            <div>
+              <form autoComplete="off">
+                <TextField
+                  id="title"
+                  name="title"
+                  label="Title"
+                  fullWidth
+                  margin="normal"
+                  value={ this.state.post.title }
+                  onChange={this.handleChange}
+                />
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="category">Category</InputLabel>
+                  <Select
+                    value={ this.state.post.category }
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: 'category',
+                      id: 'category',
+                    }}
+                  >
+                    { categorySelection }
+                  </Select>
+                </FormControl>
+                <TextField
+                  id="author"
+                  name="author"
+                  label="Author"
+                  fullWidth
+                  margin="normal"
+                  value={ this.state.post.author }
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  id="content"
+                  name="body"
+                  label="Content"
+                  multiline
+                  margin="normal"
+                  fullWidth
+                  value={ this.state.post.body }
+                  onChange={this.handleChange}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.submitPost}
+                >
+                  Send
+                </Button>
+              </form>
+              <Snackbar
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                open={this.state.snackOpen}
+                autoHideDuration={10000}
+                onClose={this.handleSnackClose}
+                ContentProps={{
+                  'aria-describedby': 'message-id',
+                }}
+                message={<span id="message-id">Post created!</span>}
+                action={[
+                  <Button key="undo" color="secondary" size="small" onClick={this.handleSnackClose}>
+                    Return to Home
+                  </Button>,
+                  <IconButton
+                    key="close"
+                    aria-label="Close"
+                    color="inherit"
+                    onClick={this.handleSnackClose}
+                  >
+                    <CloseIcon />
+                  </IconButton>,
+                ]}
+              />
+            </div>
+        }
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ categories, post }) => {
+const mapStateToProps = ({ categories, posts }) => {
   return {
     categories,
-    post
+    posts
   }
 }
 
@@ -152,7 +174,6 @@ const mapDispatchToProps = dispatch => {
   return {
     editPost: post => dispatch( editPost( post ) ),
     fetchCategories: () => dispatch( fetchCategories() ),
-    fetchPost: postId => dispatch( fetchPost( postId ) ),
   }
 }
 

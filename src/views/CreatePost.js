@@ -41,7 +41,6 @@ class CreatePost extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     !this.props.categories.items.length && this.props.fetchCategories()
   }
   render() {
