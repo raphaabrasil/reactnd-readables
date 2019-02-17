@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import { fetchPostComments, insertComment } from './actions'
+import Comment from './Comment'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import uuid from "uuid"
@@ -16,14 +16,7 @@ class Comments extends Component {
   }
   componentDidMount() {
     const { postId } = this.props
-    this.props.fetchPostComments( postId )
-  }
-
-  postComments = () => {
-    const { postsComments, postId } = this.props
-    if (postsComments && postsComments[postId]) {
-      return postsComments[postId].items
-    }
+    !this.props.postsComments[postId] && this.props.fetchPostComments( postId )
   }
 
   handleComment = event => {
@@ -46,22 +39,19 @@ class Comments extends Component {
     })
   }
 
-  render() {
-    const comments = this.postComments()
-    let content = (<p>No comments for this post</p>)
-    if ( comments ) {
-      content = comments.sort( sortBy( '-voteScore' ) ).map( comment => (
-        <div>
-          <p>{ comment.author }</p>
-          <p>{ comment.body }</p>
-          <p>Votes: { comment.voteScore }</p>
-          <Moment
-            format="DD/MM/YYYY HH:mm">
-            {comment.timestamp}
-          </Moment>
-        </div>
-      ) )
+  getComments = () => {
+    const { postsComments, postId } = this.props
+    const comments = postsComments[postId]
+    if (!comments) {
+      return comments
     }
+    return comments.allIds.map( id => (
+      comments[id]
+    ))
+  }
+
+  render() {
+    const comments = this.getComments()
     return (
       <div className="comments">
         <h1>Comments</h1>
@@ -94,7 +84,13 @@ class Comments extends Component {
           Send
         </Button>
       </form>
-      { content }
+      { comments &&
+        comments.sort( sortBy( '-voteScore' ) ).map( comment => (
+          <Comment
+            comment={ comment }
+          />
+        ))
+      }
     </div>
     );
   }

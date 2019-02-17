@@ -14,4 +14,11 @@ export const addComment = ( commentData ) => (
   .then( res => res.json() )
 )
 
-
+export const editComment = ( commentData ) => (
+  fetch ( `${ apiUrl }/comments/${commentData.id}`, {
+    method: 'PUT',
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify( commentData ),
+  } )
+  .then( res => res.json() )
+)

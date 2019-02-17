@@ -1,33 +1,38 @@
-import { GET_POST_COMMENTS, ADD_COMMENT } from './actions'
+import { GET_POST_COMMENTS, ADD_COMMENT, EDIT_COMMENT } from './actions'
 
 const initialPostCommentsState = {
+  allIds: [],
 }
 
 export const postsComments = ( state = initialPostCommentsState, action ) => {
 
-  const { postId } = action
+  const { postId, comment } = action
+  const nextState = { ...state }
   switch ( action.type ) {
     case GET_POST_COMMENTS:
       const { items } = action
+      nextState[postId] = { allIds: [] }
 
-      return {
-        ...state,
-        [postId]: {
-          items,
-        }
-      }
+      items.forEach( item => {
+        nextState[postId][item.id] = item
+        nextState[postId].allIds = [ ...nextState[postId].allIds, item.id]
+      })
+
+      return nextState
+
     case ADD_COMMENT:
-      const { comment } = action
-      return {
-        ...state,
-        [postId]: {
-          ...state[postId],
-          items: [
-            ...state[postId].items,
-            comment,
-          ]
-        }
+      nextState[postId][comment.id] = comment
+      nextState[postId].allIds = [ ...nextState[postId].allIds, comment.id ]
+      return nextState
+
+    case EDIT_COMMENT:
+      nextState[postId][comment.id] = {
+        ...nextState[postId][comment.id],
+        body: comment.body
       }
+      debugger
+      return nextState
+
     default:
       return state
   }
