@@ -5,3 +5,13 @@ export const getPostComments = postId => (
     .then( res => res.json() )
 )
 
+export const addComment = ( commentData ) => (
+  fetch ( `${ apiUrl }/comments`, {
+    method: 'POST',
+    headers: { ...headers, 'Content-Type': 'application/json' },
+    body: JSON.stringify( commentData ),
+  } )
+  .then( res => res.json() )
+)
+
+

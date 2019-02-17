@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
-import { fetchPostComments } from './actions'
+import { fetchPostComments, insertComment } from './actions'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import uuid from "uuid"
 
 class Comments extends Component {
-
+  state = {
+    comment: {
+      body: '',
+      author: '',
+    }
+  }
   componentDidMount() {
     const { postId } = this.props
     this.props.fetchPostComments( postId )
-    console.log(this.props)
   }
 
   postComments = () => {
@@ -17,6 +24,26 @@ class Comments extends Component {
     if (postsComments && postsComments[postId]) {
       return postsComments[postId].items
     }
+  }
+
+  handleComment = event => {
+    this.setState({
+      comment: {
+        ...this.state.comment,
+        [event.target.name]: event.target.value
+      }
+    })
+  }
+
+  submitComment = () => {
+    const commentData = {...this.state.comment, timestamp: Date.now(), id: uuid.v1(), parentId: this.props.postId }
+    this.props.insertComment( commentData )
+    this.setState({
+      comment: {
+        body: '',
+        author: '',
+      }
+    })
   }
 
   render() {
@@ -38,8 +65,37 @@ class Comments extends Component {
     return (
       <div className="comments">
         <h1>Comments</h1>
-        { content }
-      </div>
+        <form autoComplete="off">
+          <TextField
+            id="author"
+            name="author"
+            label="Author"
+            fullWidth
+            margin="normal"
+            value={ this.state.comment.author }
+            onChange={ this.handleComment }
+          />
+          <TextField
+            id="content"
+            name="body"
+            label="Comment Message"
+            multiline
+            margin="normal"
+            fullWidth
+            value={ this.state.comment.body }
+            onChange={ this.handleComment }
+          />
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={this.submitComment}
+        >
+          Send
+        </Button>
+      </form>
+      { content }
+    </div>
     );
   }
 }
@@ -53,6 +109,7 @@ const mapStateToProps = ({ postsComments }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchPostComments: ( postId ) => dispatch( fetchPostComments( postId ) ),
+    insertComment: commentData => dispatch( insertComment( commentData ) ),
   }
 }
 
