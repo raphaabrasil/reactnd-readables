@@ -11,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { editPost } from '../components/post/actions'
 import { fetchCategories } from '../components/category/actions'
-import uuid from "uuid"
 
 class EditPost extends Component {
   state = {
