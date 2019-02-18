@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import sortBy from 'sort-by'
-import sort from 'fast-sort'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import { fetchPosts } from './actions'
@@ -21,8 +19,7 @@ class ListPosts extends Component {
     const sortParam = this.props.interactions.sort
 
     let postsContent = posts.allIds.map( id => ( posts[id] ) )
-    const xunda = postsContent.sort( dynamicSort( sortParam ) )
-    return xunda
+    return postsContent.sort( dynamicSort( sortParam ) )
   }
 
   render() {
@@ -45,9 +42,7 @@ class ListPosts extends Component {
           <Button component= {Link} to={'/post/create'}variant="fab" color="secondary" aria-label="Add" mini>
             <AddIcon />
           </Button>
-          <div style={{ marginLeft: 10 }}>
-            <Sort />
-          </div>
+          <Sort />
         </div>
         { content }
       </div>
