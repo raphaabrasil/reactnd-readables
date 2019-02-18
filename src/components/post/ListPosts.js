@@ -2,38 +2,39 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import sortBy from 'sort-by'
+import sort from 'fast-sort'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import { fetchPosts } from './actions'
 import Post from './Post'
+import Sort from '../interactions/Sort'
+import { dynamicSort } from '../../utils/sorter'
 
 class ListPosts extends Component {
-  state = {
-    sortParam: '-voteScore'
-  }
 
   componentDidMount() {
     this.props.fetchPosts()
   }
 
-  changeOrder = sortParam => (
-    this.setState({
-      sortParam
-    })
-  )
+  orderedPosts = () => {
+    const { posts } = this.props
+    const sortParam = this.props.interactions.sort
+
+    let postsContent = posts.allIds.map( id => ( posts[id] ) )
+    const xunda = postsContent.sort( dynamicSort( sortParam ) )
+    return xunda
+  }
 
   render() {
-    const { posts } = this.props
-    const { sortParam } = this.state
+    const orderedPosts = this.orderedPosts()
 
     let content = ''
-    if ( posts.allIds.length ) {
-      const postsContent = posts.allIds.map( id => ( posts[id] ) )
+    if ( orderedPosts.length ) {
       content = (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'space-around' }}>
-          { postsContent.sort( sortBy( sortParam ) ).map( post => (
+          { orderedPosts.map( post => (
             <Post post={ post } />
-          )  )  }
+          ) ) }
         </div>
       )
     }
@@ -44,18 +45,9 @@ class ListPosts extends Component {
           <Button component= {Link} to={'/post/create'}variant="fab" color="secondary" aria-label="Add" mini>
             <AddIcon />
           </Button>
-        </div>
-        <div>
-          <p>
-            Order by:
-            <span onClick={ () => this.changeOrder( '-voteScore' ) }>
-              vote score
-            </span>
-            |
-            <span onClick={ () => this.changeOrder( 'title' ) }>
-              Title
-            </span>
-          </p>
+          <div style={{ marginLeft: 10 }}>
+            <Sort />
+          </div>
         </div>
         { content }
       </div>
@@ -63,9 +55,10 @@ class ListPosts extends Component {
   }
 }
 
-const mapStateToProps = ({ posts }) => {
+const mapStateToProps = ({ posts, interactions }) => {
   return {
     posts,
+    interactions,
   }
 }
 
