@@ -51,33 +51,32 @@ class Comment extends Component {
     const { comment } = this.props
     const { body, edit } = this.state
     return (
-      <div>
-        <p onClick={ this.handleEdit }>editar</p>
-        <div>
-          <p>{ comment.author }</p>
-          {
-            edit
+      <div className='comment'>
+        <p className='comments__author'>{ comment.author }
+          <span className='comments__edit' onClick={ this.handleEdit }>(edit)</span>
+        </p>
+        <Moment className='comments__date'
+          format="DD/MM/YYYY HH:mm">
+          {comment.timestamp}
+        </Moment>
+        {
+          edit
             ? <div>
-                <TextField
-                  onChange={ this.handleCommentBody }
-                  value={ body }
-                ></TextField>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.submitComment}
-                >
+              <TextField
+                onChange={ this.handleCommentBody }
+                value={ body }
+              ></TextField>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.submitComment}
+              >
                 Edit
-                </Button>
-              </div>
-            : <p>{ comment.body }</p>
-          }
-                   <p>Votes: { comment.voteScore }</p>
-          <Moment
-            format="DD/MM/YYYY HH:mm">
-            {comment.timestamp}
-          </Moment>
-        </div>
+              </Button>
+            </div>
+            : <p className='comments__body'>{ comment.body }</p>
+        }
+        <p>Votes: { comment.voteScore }</p>
       </div>
     )
   }

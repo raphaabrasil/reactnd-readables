@@ -55,7 +55,7 @@ class Comments extends Component {
 
     return (
       <div className="comments">
-        <h1>{`${commentCount} Comments`}</h1>
+        <div className='comments__header'>{`${commentCount} Comments`}</div>
         <form autoComplete="off">
           <TextField
             id="author"

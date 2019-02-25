@@ -29,19 +29,19 @@ class PostPage extends Component {
           <Link to={`/post/edit/${post.id}`}>Editar</Link>
           <p onClick={ this.handleDelete }>Deletar</p>
           <h1>{post.title}</h1>
-          <p>{post.author}</p>
-          <Moment
+          <p className='post__writer'>{`Writed by: ${post.author}`}</p>
+          <Moment className='post__date'
             format="DD/MM/YYYY HH:mm">
             {post.timestamp}
           </Moment>
           <p>{post.voteScore}</p>
-          <p>{ post.body }</p>
+          <p className='post__body'>{ post.body }</p>
           <Comments postId={ post.id } />
         </div>
       )
     }
     return (
-      <div>
+      <div className='post'>
         { content }
       </div>
     );
