@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import sortBy from 'sort-by'
 import { fetchPostComments, insertComment } from './actions'
 import Comment from './Comment'
 import Button from '@material-ui/core/Button'
@@ -52,9 +51,11 @@ class Comments extends Component {
 
   render() {
     const comments = this.getComments()
+    const commentCount = comments && comments.length
+
     return (
       <div className="comments">
-        <h1>Comments</h1>
+        <h1>{`${commentCount} Comments`}</h1>
         <form autoComplete="off">
           <TextField
             id="author"
@@ -84,8 +85,9 @@ class Comments extends Component {
           Send
         </Button>
       </form>
+
       { comments &&
-        comments.sort( sortBy( '-voteScore' ) ).map( comment => (
+        comments.map( comment => (
           <Comment
             comment={ comment }
           />
