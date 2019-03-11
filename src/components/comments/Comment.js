@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import { editComment } from './actions'
+import { editComment, rateComment } from './actions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import { ThumbUp, ThumbDown } from '@material-ui/icons'
 
 class Comment extends Component {
   constructor(props) {
@@ -35,6 +36,10 @@ class Comment extends Component {
       ...this.state,
       body: event.target.value
     })
+  }
+
+  handleVote = vote => {
+    this.props.rateComment(this.props.comment.id, vote)
   }
 
   submitComment = () => {
@@ -76,7 +81,11 @@ class Comment extends Component {
             </div>
             : <p className='comments__body'>{ comment.body }</p>
         }
-        <p>Votes: { comment.voteScore }</p>
+        <div style={{ display: 'flex', marginBottom: 5 }}>
+          <ThumbUp onClick = { () => this.handleVote('upVote')} style={{ color: 'green'}}/>
+          <span style={{ margin: '0 10px'}}>{ comment.voteScore }</span>
+          <ThumbDown onClick = { () => this.handleVote('downVote')} style={{ color: 'red' }} />
+        </div>
       </div>
     )
   }
@@ -84,6 +93,7 @@ class Comment extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     editComment: commentData => dispatch( editComment( commentData ) ),
+    rateComment: ( commentId, vote ) => dispatch( rateComment( commentId, vote ) ),
   }
 }
 

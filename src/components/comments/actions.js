@@ -4,6 +4,7 @@ import * as CommentsAPI from '../../api/comments'
 export const GET_POST_COMMENTS = 'GET_POST_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
+export const VOTE_COMMENT = 'VOTE_COMMENT'
 
 export const getPostComments = ( postId, comments ) => (
   {
@@ -42,4 +43,16 @@ export const edit = ( postId, comment ) => (
 export const editComment = ( commentData ) => dispatch => (
   CommentsAPI.editComment( commentData )
   .then( comment => dispatch( edit( comment.parentId, comment ) ) )
+)
+
+export const voteComment = comment => (
+  {
+    type: VOTE_COMMENT,
+    comment,
+  }
+)
+
+export const rateComment = ( commentId, vote ) => dispatch => (
+  CommentsAPI.voteComment( commentId, vote )
+  .then( comment => dispatch( voteComment( comment ) ) )
 )
