@@ -3,6 +3,7 @@ import * as PostAPI from '../../api/post'
 export const GET_POSTS = 'GET_POSTS'
 export const GET_POST = 'GET_POST'
 export const ADD_POST = 'ADD_POST'
+export const VOTE_POST = 'VOTE_POST'
 
 export const getPosts = posts => (
   {
@@ -44,3 +45,14 @@ export const editPost = post => dispatch => (
   PostAPI.updatePost( post )
 )
 
+export const votePost = post => (
+  {
+    type: VOTE_POST,
+    post,
+  }
+)
+
+export const ratePost = ( postId, vote ) => dispatch => (
+  PostAPI.votePost( postId, vote )
+  .then( post => dispatch( votePost( post ) ) )
+)
