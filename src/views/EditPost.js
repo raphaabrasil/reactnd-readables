@@ -62,7 +62,8 @@ class EditPost extends Component {
   }
 
   handleSnackClose = () => {
-    this.props.history.push('/')
+    const { category, id } = this.state.post
+    this.props.history.push(`/${ category }/${ id }`)
   }
 
   render() {
@@ -140,10 +141,10 @@ class EditPost extends Component {
                 ContentProps={{
                   'aria-describedby': 'message-id',
                 }}
-                message={<span id="message-id">Post created!</span>}
+                message={<span id="message-id">Post edited!</span>}
                 action={[
                   <Button key="undo" color="secondary" size="small" onClick={this.handleSnackClose}>
-                    Return to Home
+                    Return to Post
                   </Button>,
                   <IconButton
                     key="close"

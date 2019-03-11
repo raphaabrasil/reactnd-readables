@@ -4,6 +4,7 @@ export const GET_POSTS = 'GET_POSTS'
 export const GET_POST = 'GET_POST'
 export const ADD_POST = 'ADD_POST'
 export const VOTE_POST = 'VOTE_POST'
+export const EDIT_POST = 'EDIT_POST'
 
 export const getPosts = posts => (
   {
@@ -41,8 +42,16 @@ export const createPost = post => dispatch => (
     .then( post => dispatch( addPost( post ) ) )
 )
 
+export const edit = post => (
+  {
+    type: EDIT_POST,
+    post
+  }
+)
+
 export const editPost = post => dispatch => (
   PostAPI.updatePost( post )
+    .then( post => dispatch( edit( post ) ) )
 )
 
 export const votePost = post => (
