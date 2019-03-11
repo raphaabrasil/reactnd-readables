@@ -43,7 +43,7 @@ class CategoryPage extends Component {
       )
     }
     return (
-      <div>
+      <div class='container'>
         <div style={{ display: 'flex', alignItems: 'center' }}>
 
           <h1 style={{ marginRight: 10 }}><span style={{ textTransform: 'capitalize' }}>{ category }</span> posts</h1>

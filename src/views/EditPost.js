@@ -76,7 +76,7 @@ class EditPost extends Component {
     ))
 
     return (
-      <div>
+      <div className="container">
         { this.state && this.state.post &&
             <div>
               <form autoComplete="off">

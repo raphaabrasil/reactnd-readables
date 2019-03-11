@@ -5,7 +5,7 @@ import ListPosts from '../components/post/ListPosts'
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div className='container'>
         <ListCategories />
         <ListPosts />
       </div>
