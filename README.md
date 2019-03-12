@@ -9,6 +9,9 @@ Readables is an application for create, read, vote and comment on some posts. Yo
 To start the experience, follow the instructions bellow.
 
 ## Installation
+
+#### :warning: Before running Readables project, you have to clone [this project](https://github.com/udacity/reactnd-project-readable-starter) and follow the README instructions
+
 ### Clone repository
 
 ```sh
