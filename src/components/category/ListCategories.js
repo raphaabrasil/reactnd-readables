@@ -26,7 +26,7 @@ class ListCategories extends Component {
     }
     return (
       <div>
-        <h1>Categories</h1>
+        <h1 className='categories__title'>Categories</h1>
         { content }
       </div>
     );

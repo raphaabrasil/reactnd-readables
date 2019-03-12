@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import ListCategories from '../category/ListCategories'
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   headerBar: {
     padding: '10px 0',
     background: '#6545a0',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     textAlign: 'center',
   },
   title: {
@@ -25,6 +29,7 @@ class Header extends Component {
     return (
       <header className={ classes.headerBar }>
         <h1 className={ classes.title }><Link className={ classes.title } to="/">Readables</Link></h1>
+        <ListCategories />
       </header>
     )
   }
