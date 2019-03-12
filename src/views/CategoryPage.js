@@ -7,12 +7,12 @@ import { fetchCategoryPosts } from '../components/category/actions'
 import Post from '../components/post/Post'
 import { dynamicSort } from '../utils/sorter'
 import Sort from '../components/interactions/Sort'
-
+import Header from '../components/header/Header'
 
 class CategoryPage extends Component {
-	state = {
-		category: '',
-	}
+  state = {
+    category: '',
+  }
 
   componentDidMount() {
     const { category } = this.props.match.params
@@ -31,7 +31,7 @@ class CategoryPage extends Component {
     const { categoriesPosts } = this.props
     const { category } = this.state
     const categoryPosts = categoriesPosts[category]
-		const sortParam = this.props.interactions.sort
+    const sortParam = this.props.interactions.sort
     let content = (<p>No posts found for {category}</p>)
     if ( this.hasPostOnCategory() ) {
       content = (
@@ -43,25 +43,28 @@ class CategoryPage extends Component {
       )
     }
     return (
-      <div class='container'>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div>
+        <Header />
+        <div class='container'>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
 
-          <h1 style={{ marginRight: 10 }}><span style={{ textTransform: 'capitalize' }}>{ category }</span> posts</h1>
-          <Button component= {Link} to={'/post/create'}variant="fab" color="secondary" aria-label="Add" mini>
-            <AddIcon />
-          </Button>
-					<Sort />
+            <h1 style={{ marginRight: 10 }}><span style={{ textTransform: 'capitalize' }}>{ category }</span> posts</h1>
+            <Button component= {Link} to={'/post/create'}variant="fab" color="secondary" aria-label="Add" mini>
+              <AddIcon />
+            </Button>
+            <Sort />
+          </div>
+          { content }
         </div>
-        { content }
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = ({ categoriesPosts, interactions }) => {
   return {
-		categoriesPosts,
-		interactions,
+    categoriesPosts,
+    interactions,
   }
 }
 

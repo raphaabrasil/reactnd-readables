@@ -4,6 +4,7 @@ import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import { fetchPost, ratePost, deletePost } from '../components/post/actions'
 import Comments from '../components/comments/Comments'
+import Header from '../components/header/Header'
 import { ThumbUp, ThumbDown } from '@material-ui/icons'
 
 class PostPage extends Component {
@@ -52,8 +53,11 @@ class PostPage extends Component {
       )
     }
     return (
-      <div className='post'>
-        { content }
+      <div>
+        <Header />
+        <div className='post'>
+          { content }
+        </div>
       </div>
     );
   }

@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { editPost } from '../components/post/actions'
 import { fetchCategories } from '../components/category/actions'
+import Header from '../components/header/Header'
 
 class EditPost extends Component {
   state = {
@@ -77,89 +78,92 @@ class EditPost extends Component {
     ))
 
     return (
-      <div className="container">
-        { this.state && this.state.post &&
-            <div>
-              <form autoComplete="off">
-                <TextField
-                  id="title"
-                  name="title"
-                  label="Title"
-                  fullWidth
-                  margin="normal"
-                  value={ this.state.post.title }
-                  onChange={this.handleChange}
-                />
-                <FormControl fullWidth>
-                  <InputLabel htmlFor="category">Category</InputLabel>
-                  <Select
-                    value={ this.state.post.category }
+      <div>
+        <Header />
+        <div className="container">
+          { this.state && this.state.post &&
+              <div>
+                <form autoComplete="off">
+                  <TextField
+                    id="title"
+                    name="title"
+                    label="Title"
+                    fullWidth
+                    margin="normal"
+                    value={ this.state.post.title }
                     onChange={this.handleChange}
-                    inputProps={{
-                      name: 'category',
-                      id: 'category',
-                    }}
+                  />
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="category">Category</InputLabel>
+                    <Select
+                      value={ this.state.post.category }
+                      onChange={this.handleChange}
+                      inputProps={{
+                        name: 'category',
+                        id: 'category',
+                      }}
+                    >
+                      { categorySelection }
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    id="author"
+                    name="author"
+                    label="Author"
+                    fullWidth
+                    margin="normal"
+                    value={ this.state.post.author }
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    id="content"
+                    name="body"
+                    label="Content"
+                    multiline
+                    margin="normal"
+                    fullWidth
+                    value={ this.state.post.body }
+                    onChange={this.handleChange}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.submitPost}
                   >
-                    { categorySelection }
-                  </Select>
-                </FormControl>
-                <TextField
-                  id="author"
-                  name="author"
-                  label="Author"
-                  fullWidth
-                  margin="normal"
-                  value={ this.state.post.author }
-                  onChange={this.handleChange}
+                    Send
+                  </Button>
+                </form>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  open={this.state.snackOpen}
+                  autoHideDuration={10000}
+                  onClose={this.handleSnackClose}
+                  ContentProps={{
+                    'aria-describedby': 'message-id',
+                  }}
+                  message={<span id="message-id">Post edited!</span>}
+                  action={[
+                    <Button key="undo" color="secondary" size="small" onClick={this.handleSnackClose}>
+                      Return to Post
+                    </Button>,
+                    <IconButton
+                      key="close"
+                      aria-label="Close"
+                      color="inherit"
+                      onClick={this.handleSnackClose}
+                    >
+                      <CloseIcon />
+                    </IconButton>,
+                  ]}
                 />
-                <TextField
-                  id="content"
-                  name="body"
-                  label="Content"
-                  multiline
-                  margin="normal"
-                  fullWidth
-                  value={ this.state.post.body }
-                  onChange={this.handleChange}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.submitPost}
-                >
-                  Send
-                </Button>
-              </form>
-              <Snackbar
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                open={this.state.snackOpen}
-                autoHideDuration={10000}
-                onClose={this.handleSnackClose}
-                ContentProps={{
-                  'aria-describedby': 'message-id',
-                }}
-                message={<span id="message-id">Post edited!</span>}
-                action={[
-                  <Button key="undo" color="secondary" size="small" onClick={this.handleSnackClose}>
-                    Return to Post
-                  </Button>,
-                  <IconButton
-                    key="close"
-                    aria-label="Close"
-                    color="inherit"
-                    onClick={this.handleSnackClose}
-                  >
-                    <CloseIcon />
-                  </IconButton>,
-                ]}
-              />
-            </div>
-        }
+              </div>
+          }
+        </div>
       </div>
-    );
+    )
   }
 }
 
