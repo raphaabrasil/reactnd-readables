@@ -29,7 +29,7 @@ class ListPosts extends Component {
     if ( orderedPosts.length ) {
       content = (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'space-around' }}>
-          { orderedPosts.map( post => (
+          { orderedPosts.filter( post => post.deleted === false ).map( post => (
             <Post post={ post } />
           ) ) }
         </div>

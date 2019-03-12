@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
-import { fetchPost, ratePost } from '../components/post/actions'
+import { fetchPost, ratePost, deletePost } from '../components/post/actions'
 import Comments from '../components/comments/Comments'
-import { deletePost } from '../api/post'
 import { ThumbUp, ThumbDown } from '@material-ui/icons'
 
 class PostPage extends Component {
@@ -16,7 +15,7 @@ class PostPage extends Component {
 
   handleDelete = () => {
     const { postId } = this.props.match.params
-    deletePost(postId)
+    this.props.deletePost(postId)
     this.props.history.push('/')
   }
 
@@ -68,7 +67,8 @@ const mapStateToProps = ({ posts }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPost: ( postId ) => dispatch( fetchPost( postId ) ),
+    fetchPost: postId => dispatch( fetchPost( postId ) ),
+    deletePost: postId => dispatch( deletePost( postId ) ),
     ratePost: ( postId, vote ) => dispatch ( ratePost( postId, vote ) ),
   }
 }

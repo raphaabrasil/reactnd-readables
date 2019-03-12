@@ -1,4 +1,11 @@
-import { GET_POSTS, GET_POST, ADD_POST, VOTE_POST, EDIT_POST } from './actions'
+import {
+  GET_POSTS,
+  GET_POST,
+  ADD_POST,
+  VOTE_POST,
+  EDIT_POST,
+  DELETE_POST,
+} from './actions'
 
 const initialPostsState = {
   allIds: []
@@ -37,10 +44,13 @@ export const posts = ( state = initialPostsState, action ) => {
 
     case VOTE_POST:
       nextState[post.id] = post
-
       return nextState
 
     case EDIT_POST:
+      nextState[post.id] = post
+      return nextState
+
+    case DELETE_POST:
       nextState[post.id] = post
       return nextState
 
