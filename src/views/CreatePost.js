@@ -48,7 +48,7 @@ class CreatePost extends Component {
     const { categories } = this.props
     let categorySelection = ''
     categorySelection = categories.items.map( category => (
-      <MenuItem value={category.name}>{category.name}</MenuItem>
+      <MenuItem key={ category.path } value={category.name}>{category.name}</MenuItem>
     ))
 
     return (

@@ -37,7 +37,7 @@ class CategoryPage extends Component {
       content = (
         <div style={{ display: 'flex', flexWrap: 'wrap', alignContent: 'space-around' }}>
           { categoryPosts.posts.sort( dynamicSort( sortParam ) ).map( post => (
-            <Post post={ post } />
+            <Post key={ post.id } post={ post } />
           )  )  }
         </div>
       )
@@ -45,7 +45,7 @@ class CategoryPage extends Component {
     return (
       <div>
         <Header />
-        <div class='container'>
+        <div className='container'>
           <div style={{ display: 'flex', alignItems: 'center' }}>
 
             <h1 style={{ marginRight: 10 }}><span style={{ textTransform: 'capitalize' }}>{ category }</span> posts</h1>

@@ -20,6 +20,7 @@ class ListCategories extends Component {
           variant="contained"
           color="primary"
           style={{ margin: 10 }}
+          key={ category.path }
         > { category.name } </Button>
       ))
     }
