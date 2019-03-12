@@ -20,7 +20,9 @@ class App extends Component {
         <Route exact path="/" component={ Home } />
         <Route exact path="/post/create" component={ CreatePost } />
         <Route exact path="/post/edit/:postId" component={ EditPost } />
-        <Route exact path="/:category" component={ CategoryPage } />
+        <Route exact path="/:category" render={ ( props ) => (
+          <CategoryPage key={ props.match.params.category } { ...props }/>
+        ) } />
         <Route exact path="/:category/:postId" component={ PostPage } />
       </Switch>
     )
