@@ -33,9 +33,13 @@ class PostPage extends Component {
     if ( post ) {
       content = (
         <div>
-          <Link to={`/post/edit/${post.id}`}>Editar</Link>
-          <p onClick={ this.handleDelete }>Deletar</p>
           <h1>{post.title}</h1>
+
+          <div style={{ display: 'flex', marginBottom: 5 }}>
+            <Link className='post__date' to={`/post/edit/${post.id}`}>Edit</Link>
+            <span className='post__date' style={{ margin: '0 5px'}}>|</span>
+            <p className='post__date' style={{ cursor: 'pointer' }} onClick={ this.handleDelete }>Delete</p>
+          </div>
 
           <div style={{ display: 'flex', marginBottom: 5 }}>
             <ThumbUp onClick = { () => this.handleVote('upVote')} style={{ color: 'green'}}/>
