@@ -5,6 +5,7 @@ export const GET_POST_COMMENTS = 'GET_POST_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 
 export const getPostComments = ( postId, comments ) => (
   {
@@ -49,10 +50,24 @@ export const voteComment = comment => (
   {
     type: VOTE_COMMENT,
     comment,
+    postId: comment.parentId,
   }
 )
 
 export const rateComment = ( commentId, vote ) => dispatch => (
   CommentsAPI.voteComment( commentId, vote )
   .then( comment => dispatch( voteComment( comment ) ) )
+)
+
+export const markDeleted = comment => (
+  {
+    type: DELETE_COMMENT,
+    comment,
+    postId: comment.parentId,
+  }
+)
+
+export const deleteComment = commentId => dispatch => (
+  CommentsAPI.deleteComment( commentId )
+  .then( comment => dispatch( markDeleted( comment ) ) )
 )

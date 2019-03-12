@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import { editComment, rateComment } from './actions'
+import { editComment, rateComment, deleteComment } from './actions'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { ThumbUp, ThumbDown } from '@material-ui/icons'
@@ -42,6 +42,11 @@ class Comment extends Component {
     this.props.rateComment(this.props.comment.id, vote)
   }
 
+  handleDelete = () => {
+    const { deleteComment, comment } = this.props
+    deleteComment(comment.id)
+  }
+
   submitComment = () => {
     const { comment, editComment } = this.props
     const commentData = { body: this.state.body, timestamp: Date.now(), id: comment.id }
@@ -58,7 +63,9 @@ class Comment extends Component {
     return (
       <div className='comment'>
         <p className='comments__author'>{ comment.author }
-          <span className='comments__edit' onClick={ this.handleEdit }>(edit)</span>
+          <span className='comments__edit' onClick={ this.handleEdit }>edit</span>
+          <span className='comments__edit'> | </span>
+          <span className='comments__edit' onClick={ this.handleDelete }>delete</span>
         </p>
         <Moment className='comments__date'
           format="DD/MM/YYYY HH:mm">
@@ -94,6 +101,7 @@ const mapDispatchToProps = dispatch => {
   return {
     editComment: commentData => dispatch( editComment( commentData ) ),
     rateComment: ( commentId, vote ) => dispatch( rateComment( commentId, vote ) ),
+    deleteComment: commentId => dispatch( deleteComment( commentId ) ),
   }
 }
 

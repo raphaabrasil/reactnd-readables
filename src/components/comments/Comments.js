@@ -87,7 +87,7 @@ class Comments extends Component {
       </form>
 
       { comments &&
-        comments.map( comment => (
+        comments.filter( comment => comment.deleted === false).map( comment => (
           <Comment
             key={ comment.id }
             comment={ comment }

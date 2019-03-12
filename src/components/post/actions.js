@@ -78,3 +78,4 @@ export const deletePost = postId => dispatch => (
   PostAPI.deletePost( postId )
   .then( post => dispatch( markDeleted( post ) ) )
 )
+
